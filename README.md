@@ -26,7 +26,7 @@ O banco está estruturado em 4 tabelas principais correlacionadas:
 4. Rode as queries de inserção de dados. O script utiliza **subqueries** para capturar os IDs de forma dinâmica pelo nome, mitigando erros de integridade referencial.
 5. Utilize as queries de `INNER JOIN` fornecidas no fim do script para extrair relatórios unificados (Aluno x Turma x Professor x Parecer).
 
-## 🔮 Próximos Passos (Roadmap de Evolução)
+##  Próximos Passos (Roadmap de Evolução)
 - [ ] Implementação de `VIEWS` para automação de relatórios mensais de atendimento.
 - [ ] Criação de `TRIGGERS` (gatilhos) para sinalizar quando um aluno atingir um teto crítico de atendimentos no mês.
 - [ ] Integração do banco de dados com ferramentas de Data Viz (Power BI / Looker Studio) para geração de dashboards de evolução do aluno.
