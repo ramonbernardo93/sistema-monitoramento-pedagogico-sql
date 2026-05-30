@@ -1,8 +1,6 @@
 # Sistema de Monitoramento Pedagógico e Atendimentos (Bilingual Education)
-
 Este repositório contém o modelo e os scripts de um banco de dados relacional desenvolvido em MySQL para centralizar, estruturar e otimizar o acompanhamento individual de alunos pela coordenação pedagógica e equipe docente.
 
-## Contexto e Problema do Cenário Real
 Na rotina de gestão e coordenação de escolas (especialmente em cenários de Educação Bilíngue), o monitoramento do desenvolvimento de habilidades específicas (como *phonics*, *blending* e adaptação) e os pareceres de atendimentos individuais costumam ficar dispersos em documentos físicos ou planilhas isoladas. 
 
 Este projeto resolve essa dor ao propor uma modelagem relacional que centraliza o histórico crônico de atendimentos, permitindo cruzamento de dados ágil para tomadas de decisão pedagógicas.
