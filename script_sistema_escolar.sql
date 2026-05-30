@@ -127,3 +127,28 @@ FROM atendimentos
 INNER JOIN alunos ON atendimentos.id_aluno = alunos.id_aluno
 INNER JOIN professores ON atendimentos.id_professor = professores.id_professor
 ORDER BY atendimentos.data_atendimento DESC;
+
+/*******************************************************************************
+ EVOLUÇÃO DO PROJETO: Implementação de camada de abstração (VIEW)
+ OBJETIVO: Criar um relatório automatizado e centralizado para a coordenação,
+           simplificando o acesso ao histórico de atendimentos sem a necessidade
+           de reescrever JOINS complexos a cada consulta.
+*******************************************************************************/
+
+-- Diga ao Workbench qual banco usar
+USE sistema_escolar;
+
+-- Agora execute a criação da View
+CREATE OR REPLACE VIEW vw_relatorio_atendimentos_bilingue AS
+SELECT 
+    atendimentos.id_atendimento AS 'ID Registro',
+    atendimentos.data_atendimento AS 'Data',
+    alunos.nome AS 'Aluno',
+    turmas.nome_turma AS 'Turma',
+    professores.nome AS 'Professor(a) Bilíngue',
+    atendimentos.motivo AS 'Motivo/Foco',
+    atendimentos.observacoes AS 'Parecer Pedagógico'
+FROM atendimentos
+INNER JOIN alunos ON atendimentos.id_aluno = alunos.id_aluno
+INNER JOIN turmas ON alunos.id_turma = turmas.id_turma
+INNER JOIN professores ON atendimentos.id_professor = professores.id_professor;
