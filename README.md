@@ -1,30 +1,33 @@
 # Sistema de Monitoramento Pedagógico e Atendimentos (Bilingual Education)
-Este repositório contém o modelo e os scripts de um banco de dados relacional desenvolvido em MySQL para centralizar, estruturar e otimizar o acompanhamento individual de alunos pela coordenação pedagógica e equipe docente.
 
-Na rotina de gestão e coordenação de escolas (especialmente em cenários de Educação Bilíngue), o monitoramento do desenvolvimento de habilidades específicas (como *phonics*, *blending* e adaptação) e os pareceres de atendimentos individuais costumam ficar dispersos em documentos físicos ou planilhas isoladas. 
+Criei este banco de dados relacional em MySQL para resolver um problema bem comum na minha rotina escolar: a dispersão de informações sobre o acompanhamento dos alunos. 
 
-Este projeto resolve essa dor ao propor uma modelagem relacional que centraliza o histórico crônico de atendimentos, permitindo cruzamento de dados ágil para tomadas de decisão pedagógicas.
+Em cenários de Educação Bilíngue, os professores geram pareceres muito ricos sobre habilidades específicas (como *phonics*, *blending*, nível de engajamento e adaptação). O problema é que essas anotações costumam ficar perdidas em relatórios físicos ou planilhas isoladas, dificultando a visão do histórico do aluno. 
 
-## Tecnologias Utilizadas
-* **Banco de Dados:** MySQL
-* **Ferramenta de Desenvolvimento:** MySQL Workbench
-* **Conceitos Aplicados:** Chaves Primárias (PK), Chaves Estrangeiras (FK), Integridade Referencial, Subqueries Dinâmicas e Junções de Tabelas (INNER JOIN).
+A ideia desse projeto é centralizar esses dados de forma estruturada para que a coordenação pedagógica consiga cruzar informações rapidamente e tomar decisões com base em dados reais.
 
-## Arquitetura do Banco de Dados
-O banco está estruturado em 4 tabelas principais correlacionadas:
-* `professores`: Cadastro da equipe docente e suas respectivas disciplinas.
-* `turmas`: Organização das turmas da instituição, vinculadas aos seus professores regentes.
-* `alunos`: Registro dos estudantes matriculados e sua respectiva enturmação.
-* `atendimentos`: Tabela fato que centraliza o histórico de acompanhamento, conectando alunos, professores, datas e pareceres qualitativos.
+## O que foi aplicado na prática (Conceitos Técnicos)
+Em vez de usar dados fictícios e genéricos, usei a estrutura da escola para aplicar os conceitos de banco de dados:
+* **Modelagem Relacional:** Uso de Chaves Primárias (PK) e Chaves Estrangeiras (FK) para garantir que as tabelas conversem entre si sem duplicar dados.
+* **Integridade Referencial:** Travas no banco para impedir que um atendimento seja registrado para um aluno que não existe.
+* **Subqueries Dinâmicas:** Uso de seleções internas dentro do `INSERT` para buscar os IDs dos alunos e professores direto pelo nome, evitando erros manuais de digitação de ID.
+* **Junções e Abstração:** Cruzamento de dados com `INNER JOIN` e criação de `VIEWS` para gerar relatórios limpos com apenas um comando.
 
-## Como Executar o Projeto
-1. Copie o script contido no arquivo `script_sistema_escolar.sql` deste repositório.
-2. Execute o bloco inicial no seu MySQL Workbench para criar e ativar o schema `sistema_escolar`.
-3. Execute as queries de criação de tabelas (`CREATE TABLE`).
-4. Rode as queries de inserção de dados. O script utiliza **subqueries** para capturar os IDs de forma dinâmica pelo nome, mitigando erros de integridade referencial.
-5. Utilize as queries de `INNER JOIN` fornecidas no fim do script para extrair relatórios unificados (Aluno x Turma x Professor x Parecer).
+## Como o banco foi estruturado
+O ecossistema é dividido em 4 tabelas que se conectam logicamente:
+1. `professores`: Cadastro da equipe docente bilíngue e suas matérias.
+2. `turmas`: Organização das turmas vinculadas aos seus respectivos professores regentes.
+3. `alunos`: Registro dos estudantes e sua enturmação.
+4. `atendimentos`: A tabela principal onde o histórico é construído (conecta o aluno, o professor que atendeu, a data, o status do caso e o parecer qualitativo).
 
-##  Próximos Passos (Roadmap de Evolução)
-- [ ] Implementação de `VIEWS` para automação de relatórios mensais de atendimento.
-- [ ] Criação de `TRIGGERS` (gatilhos) para sinalizar quando um aluno atingir um teto crítico de atendimentos no mês.
-- [ ] Integração do banco de dados com ferramentas de Data Viz (Power BI / Looker Studio) para geração de dashboards de evolução do aluno.
+## Como rodar o script no MySQL Workbench
+1. Abra o arquivo `script_sistema_escolar.sql` no seu Workbench.
+2. Execute o bloco inicial para criar e ativar o banco de dados (`sistema_escolar`).
+3. Rode as queries de criação de tabelas na ordem correta (Professores ➡️ Turmas ➡️ Alunos ➡️ Atendimentos) por conta das dependências de chaves estrangeiras.
+4. Execute as inserções de dados e teste o comando de `UPDATE` criado para gerenciar a evolução dos status.
+5. Para ver o relatório final unificado sem precisar digitar códigos longos, basta rodar o comando da nossa View: `SELECT * FROM vw_relatorio_atendimentos_bilingue;`.
+
+## 🔮 O que pretendo implementar a seguir (Roadmap)
+- [x] Criação de `VIEWS` para automatizar o relatório geral da coordenação e permitir filtros rápidos por Status (Pendente, Em Acompanhamento, Concluído).
+- [ ] Construção de uma `TRIGGER` (gatilho de segurança) para impedir que erros de digitação permitam salvar datas futuras nos atendimentos.
+- [ ] Conectar esse banco ao Power BI ou Looker Studio para transformar os pareceres de texto e contagens de atendimento em um dashboard visual de evolução do aluno.
