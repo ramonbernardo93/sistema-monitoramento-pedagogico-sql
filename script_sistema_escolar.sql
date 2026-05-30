@@ -152,3 +152,29 @@ FROM atendimentos
 INNER JOIN alunos ON atendimentos.id_aluno = alunos.id_aluno
 INNER JOIN turmas ON alunos.id_turma = turmas.id_turma
 INNER JOIN professores ON atendimentos.id_professor = professores.id_professor;
+
+USE sistema_escolar;
+
+-- Adicionando a coluna de status na tabela de atendimentos
+ALTER TABLE atendimentos 
+ADD COLUMN status_atendimento VARCHAR(30) DEFAULT 'Pendente';
+
+-- Atualizando o status do primeiro atendimento
+UPDATE atendimentos 
+SET status_atendimento = 'Em Acompanhamento'
+WHERE id_atendimento = 1;
+
+CREATE OR REPLACE VIEW vw_relatorio_atendimentos_bilingue AS
+SELECT 
+    atendimentos.id_atendimento AS 'ID Registro',
+    atendimentos.data_atendimento AS 'Data',
+    alunos.nome AS 'Aluno',
+    turmas.nome_turma AS 'Turma',
+    professores.nome AS 'Professor(a) Bilíngue',
+    atendimentos.motivo AS 'Motivo/Foco',
+    atendimentos.observacoes AS 'Parecer Pedagógico',
+    atendimentos.status_atendimento AS 'Status' -- Nova coluna integrada ao relatório!
+FROM atendimentos
+INNER JOIN alunos ON atendimentos.id_atendimento = alunos.id_aluno
+INNER JOIN turmas ON alunos.id_turma = turmas.id_turma
+INNER JOIN professores ON atendimentos.id_professor = professores.id_professor;
